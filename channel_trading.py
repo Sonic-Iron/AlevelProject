@@ -85,7 +85,7 @@ class stock_calculation():
             file.close()
             return PriceSet
         else:
-            api_key = '4KMUR9F881V1L3MA' #obscure this
+            api_key = '' #obscure this
             web = "https://www.alphavantage.co/query?"
             timedelay = "TIME_SERIES_DAILY"
             outputsize='full'
