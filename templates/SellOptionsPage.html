@@ -1,0 +1,31 @@
+<html> 
+<header>
+<title>Create Custom Option </title>
+</header>
+<body>
+{%extends "navbar.html"%}
+{%block content%}
+<form action="" method="POST" autocomplete="off">
+	<input type="hidden" name="hidden" value = "SellOptionsPageSub"><br>
+	Option type (Put/Call): <select name="optionType" style="margin-left:40px">
+								<option value="Put">Put</option>
+								<option value="Call">Call</option>
+							</select>
+							<br>
+	StockID: <input type="text" onfocus="this.value=''" name="stockID" value="{{request.form.optionType}}"style='margin-left: 137px'><br>
+	Striking Price per stock:<input type="text" onfocus="this.value=''" name="StrikePrice" value="{{request.form.StrikePrice}}"style='margin-left: 34px'><br>
+	EndDate (in D/M/Y):<input type="date"  name="Date" value="{{request.form.Date}}"style='margin-left: 59px'><br>
+	Number of Options to Sell: <input type="text" onfocus="this.value=''" name="NOpts" value="{{request.form.NOpts}}"style='margin-left: 10px'><br>
+	<Button type="submit" value="Enter"> Do the Enter </Button>
+</form>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+	<h3>Some errors have been found, please address these before selling your option</h3>
+	{% for message in messages %}
+		<li>{{message}}</li>
+	{% endfor %}
+{% endif %}
+{% endwith %}
+{%endblock%}
+</body>
+</html>

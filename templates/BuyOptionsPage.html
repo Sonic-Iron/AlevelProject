@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Buy Options</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  font-size: 16;
+  border-collapse: collapse;
+  width: 100%;
+}
+p{
+  font-size: ;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+{%extends "navbar.html"%}
+{%block content%}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+	<h3>Some errors have been found, please address these before buying your option</h3>
+	{% for message in messages %}
+		<li>{{message}}</li>
+	{% endfor %}
+{% endif %}
+{% endwith %}
+<h2>Buy Calls</h2>
+
+<table style="width:50%">
+	<tr>
+		<th>Stock ID</th>
+		<th>Strike Price</th>
+		<th>Expiry Date</th>
+		<th>Number of options avaliable</th>
+	</tr>
+	{%for stock in FSC%}
+		<tr>
+			{%for stockvalue in stock[1:]%}
+					<th>{{stockvalue}}</th>
+			{%endfor%}
+			<th>
+			<form method="POST" autocomplete="off">
+				<input type="hidden" name="hidden" value="BuyOptionsPageSub">
+				<input type="hidden" name="hidden-stockinfo" value={{stock[0]}}>
+				<input type="text" placeholder="Number of options to buy..." name="OBE" value="{{request.form.OBE}}">
+				<input type="submit" value="Buy">
+			</form>
+			</th>
+		</tr>
+	{%endfor%}
+</table>
+
+<h2>Buy Puts</h2>
+
+<table style="width:50%">
+	<tr>
+		<th>Stock ID</th>
+		<th>Strike Price</th>
+		<th>Expiry Date</th>
+		<th>Number of options avaliable</th>
+	</tr>
+	{%for stock in FSP%}
+		<tr>
+			{%for stockvalue in stock[1:]%}
+					<th>{{stockvalue}}</th>
+			{%endfor%}
+			<th>
+			<form method="POST" autocomplete="off">
+				<input type="hidden" name="hidden" value="BuyOptionsPageSub">
+				<input type="hidden" name="hidden-stockinfo" value={{stock[0]}}>
+				<input type="text" placeholder="Number of options to buy..." name="OBE" value="{{request.form.OBE}}">
+				<input type="submit" value="Buy"></button>
+			</form>
+			</th>
+		</tr>
+	{%endfor%}
+</table>
+{%endblock%}
+</body>
+</html>

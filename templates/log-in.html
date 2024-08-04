@@ -1,0 +1,48 @@
+<html>
+<head>
+<title> Log-In </title>
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/loginstyle.css') }}">
+</head>
+<body>
+<script>
+function mouseoverPass(obj) {
+  var obj = document.getElementById('myPassword');
+  obj.type = "text";
+}
+function mouseoutPass(obj) {
+  var obj = document.getElementById('myPassword');
+  obj.type = "password";
+}
+</script>
+{%extends "navbar.html"%}
+{%block content%}
+
+
+<div class="usernamebox">
+<p> Enter your details to sign in </p>
+<form action="" method="POST" autocomplete="off" style='usernamebox'>
+	<input type="hidden" name="hidden" value="info-enter">
+	<input class="usernameboxsingle" type="text" name="usernamesubbox" placeholder="Username..." value="{{request.form.usernamesubbox}}"><Br>
+	<input class="usernameboxsingle" type="password" name="passwordsubbox" placeholder="Password..." value="{{request.form.passwordsubbox}}" id="PIN" size="30" onmouseover=this.type="text" onmouseout=this.type="password"><Br>
+	<Button class="submitbutton" type="submit" value="Enter">Submit</button>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	    {% for message in messages %}
+			<div class="errormessage">
+			{{message}}
+			</div>
+		{% endfor %}
+	{% endif %}
+	{% endwith %}
+</form>
+
+<p> Hover over password to show </p>
+</p> Or regester by clicking on the button below </p>
+<a href='reg'>Register</a>
+</div>
+{%endblock%}
+
+
+</body>
+</html>
+

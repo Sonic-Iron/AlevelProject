@@ -1,0 +1,217 @@
+<html>
+<head>
+<link rel= "stylesheet" href= "{{ url_for('static',filename='styles/homestyle.css') }}">
+<meta charset="utf-8" />
+<title>stock: {{STOCKID}}</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+</style>
+
+
+<body onload="onload()">
+{%extends "navbar.html"%}
+{%block content%}
+
+<script>
+function onload(){
+	document.getElementById('chartdiv').style.display = 'block';
+}
+</script>
+<!-- Styles -->
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+<!-- Chart code -->
+<script>
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "none",
+    "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20, 
+    "mouseWheelZoomEnabled":true,
+    "dataDateFormat": "YYYY-MM-DD",
+    "valueAxes": [{
+        "id": "v1",
+        "axisAlpha": 0,
+        "position": "left",
+        "ignoreAxisWidth":true
+    }],
+    "balloon": {
+        "borderThickness": 0.5,
+        "shadowAlpha": 10
+    },
+    "graphs": [{
+        "id": "g1",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#ffffff",
+        "bulletSize": 10,
+        "hideBulletsCount": 50,
+        "lineThickness": 4,
+        "title": "red line",
+        "useLineColorForBulletBorder": true,
+        "valueField": "value",
+        "balloonText": "<span style='font-size:15px;'>[[value]]</span>"
+    },{
+        "id": "g2",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#ffffff",
+        "bulletSize": 5,
+        "hideBulletsCount": 1,
+        "lineThickness": 2,
+        "title": "red line",
+        "useLineColorForBulletBorder": true,
+        "valueField": "uppervalue",
+        "balloonText": "<span style='font-size:15px;'>[[uppervalue]]</span>"
+    },
+	{
+        "id": "g3",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#ffffff",
+        "bulletSize": 5,
+        "hideBulletsCount": 1,
+        "lineThickness": 2,
+        "title": "red line",
+        "useLineColorForBulletBorder": true,
+        "valueField": "lowervalue",
+        "balloonText": "<span style='font-size:15px;'>[[lowervalue]]</span>"
+    },
+	{
+        "id": "g4",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#ffffff",
+        "bulletSize": 5,
+        "hideBulletsCount": 1,
+        "lineThickness": 2,
+        "title": "red line",
+        "useLineColorForBulletBorder": true,
+        "valueField": "movingAverage",
+        "balloonText": "<span style='font-size:15px;'>[[movingAverage]]</span>"
+    }],
+    "chartScrollbar": {
+        "graph": "g1",
+        "oppositeAxis":false,
+        "offset":30,
+        "scrollbarHeight": 80,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA"
+    },
+    "chartCursor": {
+        "pan": true,
+        "valueLineEnabled": true,
+        "valueLineBalloonEnabled": true,
+        "cursorAlpha":1,
+        "cursorColor":"#258cbb",
+        "limitToGraph":"g1",
+        "valueLineAlpha":0.2,
+        "valueZoomable":true
+    },
+    "valueScrollbar":{
+      "oppositeAxis":false,
+      "offset":50,
+      "scrollbarHeight":10
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    },
+	"dataProvider":[
+	{% for Mdict in datapiecevalues %}	
+			 {'date':'{{Mdict['date']}}' , 'value': {{Mdict['value']}},'uppervalue': '{{Mdict['uppervalue']}}','lowervalue': '{{Mdict['lowervalue']}}','movingAverage': {{Mdict['movingAverage']}}}, 
+	{% endfor %}
+	]
+});
+
+chart.addListener("rendered", zoomChart);
+
+zoomChart();
+
+function zoomChart() {
+    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+}
+
+
+</script>
+
+<!-- HTML -->
+<div id="chartdiv" style="display:none;"></div>
+<p> You are currently viewing the price and trade information for: {{STOCKID}} </p>
+<h3> The current moving average is: {{movingAverage}} and daily price of {{dailyprice}}</h3>
+<h3> with a high and low bands of: {{upperband}} and {{lowerband}}</h3>
+<h3> the weighted gradient is {{Agradient}}</h3>
+
+<form action="" method="POST" autocomplete="off">
+	<input type="hidden" name="hidden" value = "trade-enter">
+	<input type="text" name="stockmag" placeholder="Trade Volume..." value="{{request.form.stockmag}}"><Br>
+	<Button type="submit" value="Enter">Enter Volume to trade (positive to buy, negitive to sell)</button>
+</form>
+
+<form action="" method="POST">
+	<input type="hidden" name="hidden" value='Refresh Stocks'>
+	<Button type="submit" value="Refresh Stocks">Refresh Stock</button>
+</form>
+
+{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+			<b>
+			{{message}}
+			</b>
+		{% endfor %}
+	  {% endif %}
+	{% endwith %}
+	
+{%endblock%}
+</body>
+</html>

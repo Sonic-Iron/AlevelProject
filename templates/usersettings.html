@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>User Settings </title>
+</head>
+<body>
+{%extends "navbar.html"%}
+{%block content%}
+<p> Settings Page </p>
+<h3> To change any of your settings, enter your current setting in the relevent box, then enter your new details in the second box </h3>
+<form action="" method="POST" autocomplete="off">
+	<input type="hidden" name="hidden" value = "username">
+	<input type="password" name="username" placeholder="New Username..." value="{{request.form.passwordsubbox}}"><Br>
+	<input type="password" name="username" placeholder="New Username..." value="{{request.form.passwordsubbox}}"><Br>
+</form>
+<form action="" method="POST" autocomplete="off">
+	<input type="hidden" name="hidden" value = "password">
+	<input type="text" name="password" placeholder="Current Password..." value="{{request.form.password}}"><Br>
+	<input type="text" name="passwordnew" placeholder="New Password..." value="{{request.form.passwordnew}}"><Br>
+</form>
+<form action="" method="POST" autocomplete="off">
+	<input type="hidden" name="hidden" value = "email">
+	<input type="text" name="email" placeholder="Current Email..." value="{{request.form.email}}"><Br>
+	<input type="text" name="emailnew" placeholder="New Email..." value="{{request.form.emailnew}}"><Br>
+</form>
+<Button type="submit" value="Enter">Enter details</button>
+
+
+{%endblock%}
+</body>
+</html>

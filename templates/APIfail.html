@@ -1,0 +1,11 @@
+<html>
+<head>
+<link rel= "stylesheet" href= "{{ url_for('static',filename='styles/homestyle.css') }}">
+</head>
+<body>
+{%extends "navbar.html"%}
+{%block content%}
+<h1>Unfortunately, '{{STOCKID}}' cannot be found, enter a value stock ID by searching for it</h1>
+{%endblock%}
+</body>
+</html>

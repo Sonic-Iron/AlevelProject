@@ -1,0 +1,55 @@
+<html>
+<head>
+<link rel= "stylesheet" href= "{{ url_for('static',filename='styles/homestyle.css') }}">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <div class="dropdown">
+    <button class="dropbtn">Stock Prices 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="https://www.centralcharts.com/en/price-list-ranking/ALL/asc/ts_29-us-nyse-stocks--qc_1-alphabetical-order">US NYSE</a>
+      <a href="https://www.nasdaq.com/">NASDAQ</a>
+    </div>
+  </div> 
+  {% if session['uuid'] is not defined%}
+	<a href="/log-in">Log In</a>
+	<a href="/reg">Register</a>
+  {%endif%}
+  {% if session['uuid'] is defined %} 
+	<a href="/profile">Your Profile</a>
+	<div class="dropdown">
+		<button class="dropbtn">Trade Options
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+			<a href="/buyOptions">Buy Options</a>
+			<a href="/sellOptions">Sell Options</a>
+		</div>
+	</div>
+	{%if session['permlvl'] is defined%}
+		{%if session['permlvl'] > 50%}
+			<a href="/admin">Admin</a>
+		{%endif%}
+	{%endif%}
+	<a href="/logout">Log Out</a>
+  {%endif%}
+  <div class="searchbox">
+  <form action="" method="POST" autocomplete="off">
+	<input type="hidden" name="hidden" value = "searchbarsub">
+	<input type="text" placeholder="Search.." name="searchbar" value="{{request.form.searchbar}}">
+	<button type="submit" value="Search">Search...</button>
+  </form>
+  </div>
+  
+</div>
+<div class="container">
+<noscript><b>You have JavaScript turned off!</b></noscript>
+{% block content %}
+{% endblock %}
+</body>
+
+</html>

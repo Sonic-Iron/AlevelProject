@@ -1,0 +1,50 @@
+<html>
+<head>
+<title> Resister </title>
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/regesterstyle.css') }}">
+</head>
+<body>
+<script>
+function mouseoverPass(obj) {
+  var obj = document.getElementById('myPassword');
+  obj.type = "text";
+}
+function mouseoutPass(obj) {
+  var obj = document.getElementById('myPassword');
+  obj.type = "password";
+}
+</script>
+{%extends "navbar.html"%}
+{%block content%}
+
+<div class="usernamebox">
+<p> Enter your information to create an account </p>
+<form action="" method="POST" autocomplete="off">
+	<input class="usernameboxsingle" type="hidden" name="hidden" value = "register">
+	<input class="usernameboxsingle" type="text" name="emailsubbox" placeholder="Email..." value="{{request.form.emailsubbox}}"><Br>
+	<input class="usernameboxsingle" type="text" name="usernamesubbox" placeholder="Username..." value="{{request.form.usernamesubbox}}"><Br>
+	<input class="usernameboxsingle" type="password" name="passwordsubbox" placeholder="Password..." value="{{request.form.passwordsubbox}}" onmouseover=this.type="text" onmouseout=this.type="password"><Br>
+	<input class="usernameboxsingle" type="password" name="passwordsubboxsecond" placeholder="Same Password..." value="{{request.form.passwordsubboxsecond}}" onmouseover=this.type="text" onmouseout=this.type="password"><Br>
+	<Button class="submitbutton" type="submit" value="Enter">Enter details</button>
+</form>
+
+
+{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+			<br>
+			<div class="errormessage">
+			{{message}}
+			</div>
+			<br>
+		{% endfor %}
+	  {% endif %}
+	{% endwith %}
+
+<p> If you already have an account, click the button below to sign in </p>
+<a href="log-in">Log In</a>
+</div>
+{%endblock%}
+
+</body>
+</html>
